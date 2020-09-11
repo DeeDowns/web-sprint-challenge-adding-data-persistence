@@ -16,9 +16,9 @@ router.get('/', (req,res) => {
     })
 })
 
-router.post('/', (req, res) => {
-    const resourceData = req.body
-    Resources.addResource(resourceData)
+router.post('/', validateResource, (req, res) => {
+    const { name, description } = req.body
+    Resources.addResource({ name, description })
     .then(newResource => {
         console.log(newResource)
         res.status(201).json({ message: 'new resource created' })
@@ -28,5 +28,18 @@ router.post('/', (req, res) => {
         res.status(500).json({ message: error.message })
     })
 })
+
+
+function validateResource(req, res, next) {
+    const {name } = req.body
+    
+    if(!req.body) {
+        res.status(400).json({ message: 'missing resource  data'})
+    } else if(!name) {
+        res.status(400).json({ message: 'missing required name field'})
+    } else {
+        next()
+    }
+}
 
 module.exports = router
