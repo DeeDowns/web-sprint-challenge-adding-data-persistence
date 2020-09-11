@@ -16,4 +16,17 @@ router.get('/', (req,res) => {
     })
 })
 
+router.post('/', (req, res) => {
+    const resourceData = req.body
+    Resources.addResource(resourceData)
+    .then(newResource => {
+        console.log(newResource)
+        res.status(201).json({ message: 'new resource created' })
+    })
+    .catch(error => {
+        console.log(error)
+        res.status(500).json({ message: error.message })
+    })
+})
+
 module.exports = router
