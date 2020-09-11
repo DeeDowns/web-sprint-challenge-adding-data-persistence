@@ -2,13 +2,14 @@ const express = require('express')
 const helmet = require('helmet')
 const cors = require('cors')
 
-// const db = require()
+const projectsRouter = require('../projects/projects-router')
 
 const server = express()
 
 server.use(helmet())
 server.use(express.json())
 server.use(logger)
+server.use('/api/projects', projectsRouter)
 
 server.get('/', (req, res) => {
     res.status(200).json({ message: 'server uppppp' })
